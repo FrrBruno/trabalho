@@ -22,4 +22,9 @@
         android:name="br.com.brunoferrari.mobile.trabalho.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/navigation_cad_cronograma"
+        android:name="br.com.brunoferrari.mobile.trabalho.ui.cronograma.CadCronogramaFragment"
+        android:label="@string/title_cad_cronograma"
+        tools:layout="@layout/fragment_cad_cronograma" />
 </navigation>
