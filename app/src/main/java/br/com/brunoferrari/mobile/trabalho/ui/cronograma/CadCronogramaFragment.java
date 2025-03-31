@@ -7,15 +7,21 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
 
 import br.com.brunoferrari.mobile.trabalho.R;
+import br.com.brunoferrari.mobile.trabalho.model.Cronograma;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CadCronogramaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CadCronogramaFragment extends Fragment {
+public class CadCronogramaFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,6 +31,18 @@ public class CadCronogramaFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private View view;
+    //objetos telas
+    private EditText intNome;
+    private EditText editTextText;
+    private EditText editTextText2;
+    private EditText editTextText3;
+    private EditText editTextText5;
+    private EditText editTextText6;
+    private EditText editTextDate2;
+    private Button button;
+
+
 
     public CadCronogramaFragment() {
         // Required empty public constructor
@@ -61,6 +79,36 @@ public class CadCronogramaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cad_cronograma, container, false);
+        this.view = inflater.inflate(R.layout.fragment_cad_cronograma, container, false);
+        //Binding
+        this.intNome = view.findViewById(R.id.intNome);
+        this.editTextText = view.findViewById(R.id.editTextText);
+        this.editTextText2 = view.findViewById(R.id.editTextText2);
+        this.editTextText3 = view.findViewById(R.id.editTextText3);
+        this.editTextText5 = view.findViewById(R.id.editTextText5);
+        this.editTextText6 = view.findViewById(R.id.editTextText6);
+        this.editTextDate2 = view.findViewById(R.id.editTextDate2);
+        this.button = view.findViewById(R.id.button);
+
+        this.button.setOnClickListener(this);
+
+        return view;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == R.id.button){
+            Cronograma cronograma = new Cronograma();
+
+            cronograma.setCliente(this.editTextText.getText().toString());
+            cronograma.setDate(this.editTextDate2.getText().toString());
+            cronograma.setDescricaoServico(this.editTextText2.getText().toString());
+            cronograma.setHorasPorPessoa(this.editTextText3.getText().toString());
+            cronograma.setQuantidadePessoas(this.editTextText5.getText().toString());
+            cronograma.setMaterial(this.editTextText6.getText().toString());
+            cronograma.setNome(this.intNome.getText().toString());
+
+            Toast.makeText(view.getContext(), "Sucesso" , Toast.LENGTH_SHORT).show();
+        }
     }
 }
