@@ -1,5 +1,6 @@
 package br.com.brunoferrari.mobile.trabalho.ui.cronograma;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.android.material.snackbar.Snackbar;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 
 import br.com.brunoferrari.mobile.trabalho.R;
@@ -21,7 +33,8 @@ import br.com.brunoferrari.mobile.trabalho.model.Cronograma;
  * Use the {@link CadCronogramaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CadCronogramaFragment extends Fragment implements View.OnClickListener {
+public class CadCronogramaFragment extends Fragment
+        implements View.OnClickListener, Response.ErrorListener, Response.Listener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,6 +54,8 @@ public class CadCronogramaFragment extends Fragment implements View.OnClickListe
     private EditText editTextText6;
     private EditText editTextDate2;
     private Button button;
+    private RequestQueue requestQueue;
+    private JsonObjectRequest jsonObjectRequest;
 
 
 
@@ -91,6 +106,10 @@ public class CadCronogramaFragment extends Fragment implements View.OnClickListe
         this.button = view.findViewById(R.id.button);
 
         this.button.setOnClickListener(this);
+        //instanciando a fila de requests - caso o objeto seja o view
+        this.requestQueue = Volley.newRequestQueue(view.getContext());
+//inicializando a fila de requests do SO
+        this.requestQueue.start();
 
         return view;
     }
@@ -107,8 +126,59 @@ public class CadCronogramaFragment extends Fragment implements View.OnClickListe
             cronograma.setQuantidadePessoas(this.editTextText5.getText().toString());
             cronograma.setMaterial(this.editTextText6.getText().toString());
             cronograma.setNome(this.intNome.getText().toString());
+            //REQUEST VOLLEY AQUI !!!!!!!
+            JsonObjectRequest jsonObjectReq = new JsonObjectRequest(
+                    Request.Method.POST,
+                    "http://10.0.2.2:8080/seg/cadusuario.php",
+                    cronograma.toJsonObject(), this, this);
+            requestQueue.add(jsonObjectReq);
 
             Toast.makeText(view.getContext(), "Sucesso" , Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Snackbar mensagem = Snackbar.make(view,
+                "Ops! Houve um problema ao realizar o cadastro: " +
+                        error.toString(),Snackbar.LENGTH_LONG);
+        mensagem.show();
+
+    }
+
+    @Override
+    public void onResponse(Object response) {
+        try {
+            //instanciando objeto para manejar o JSON que recebemos
+            JSONObject jason = new JSONObject(response.toString());
+            //context e text são para a mensagem na tela o Toast
+            Context context = view.getContext();
+            //pegando mensagem que veio do json
+            CharSequence mensagem = jason.getString("message");
+            //duração da mensagem na tela
+            int duration = Toast.LENGTH_SHORT;
+
+            if (jason.getBoolean("success")){
+                //limpar campos da tela
+                this.editTextDate2.setText("");
+                this.editTextText.setText("");
+                this.editTextText2.setText("");
+                this.editTextText5.setText("");
+                this.editTextText3.setText("");
+                this.editTextText6.setText("");
+                this.intNome.setText("");
+                //selecionando primeiro item dos spinners
+                this.intNome.setSelection(0);
+
+            }
+            //mostrando a mensagem que veio do JSON
+            Toast toast = Toast.makeText (context, mensagem, duration);
+            toast.show();
+
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 }
