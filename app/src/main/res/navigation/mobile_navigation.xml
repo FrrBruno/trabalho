@@ -27,4 +27,9 @@
         android:name="br.com.brunoferrari.mobile.trabalho.ui.cronograma.CadCronogramaFragment"
         android:label="@string/title_cad_cronograma"
         tools:layout="@layout/fragment_cad_cronograma" />
+    <fragment
+        android:id="@+id/navegation_con_credencial"
+        android:name="br.com.brunoferrari.mobile.trabalho.ui.cronograma.ConCronogramaFragment"
+        android:label="@string/title_con_cronograma"
+        tools:layout="@layout/fragment_con_cronograma_list" />
 </navigation>
