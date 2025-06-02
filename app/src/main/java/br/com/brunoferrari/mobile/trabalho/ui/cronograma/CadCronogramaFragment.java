@@ -129,11 +129,9 @@ public class CadCronogramaFragment extends Fragment
             //REQUEST VOLLEY AQUI !!!!!!!
             JsonObjectRequest jsonObjectReq = new JsonObjectRequest(
                     Request.Method.POST,
-                    "http://10.0.2.2:8080/seg/cadusuario.php",
+                    "http://10.0.2.2/seg/comAutenticacao.php",
                     cronograma.toJsonObject(), this, this);
             requestQueue.add(jsonObjectReq);
-
-            Toast.makeText(view.getContext(), "Sucesso" , Toast.LENGTH_SHORT).show();
         }
     }
 

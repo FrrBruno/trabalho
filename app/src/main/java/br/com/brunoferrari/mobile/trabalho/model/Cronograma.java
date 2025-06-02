@@ -14,13 +14,13 @@ public class Cronograma {
 
     public Cronograma(JSONObject jp) {
         try {
-            this.setNome(jp.getString("nome"));
-            this.setCliente(jp.getString("cliente"));
-            this.setDescricaoServico(jp.getString("descricaoservico"));
-            this.setHorasPorPessoa(jp.getString("horasporpessoa"));
-            this.setQuantidadePessoas(jp.getString("quantidadepessoas"));
-            this.setMaterial(jp.getString("material"));
-            this.setDate(jp.getString("date"));
+            this.setNome(jp.getString("IdNome"));
+            this.setCliente(jp.getString("idCliente"));
+            this.setDescricaoServico(jp.getString("idDescrição"));
+            this.setHorasPorPessoa(jp.getString("idQntHoras"));
+            this.setQuantidadePessoas(jp.getString("idQntPessoas"));
+            this.setMaterial(jp.getString("idMaterial"));
+            this.setDate(jp.getString("IdData"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -40,13 +40,13 @@ public class Cronograma {
     public JSONObject toJsonObject() {
         JSONObject json = new JSONObject();
         try {
-            json.put("nome", this.nome);
-            json.put("cliente", this.cliente);
-            json.put("descricaoservico", this.descricaoServico);
-            json.put("horasporpessoa", this.horasPorPessoa);
-            json.put("quantidadepessoas", this.quantidadePessoas);
-            json.put("material", this.material);
-            json.put("date", this.date);
+            json.put("IdNome", this.nome);
+            json.put("idCliente", this.cliente);
+            json.put("idDescrição", this.descricaoServico);
+            json.put("idQntHoras", this.horasPorPessoa);
+            json.put("idQntPessoas", this.quantidadePessoas);
+            json.put("idMaterial", this.material);
+            json.put("IdData", this.date);
         } catch (JSONException e) {
             e.printStackTrace();
         }
